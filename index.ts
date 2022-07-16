@@ -1,18 +1,16 @@
-import express, { json } from "express";
+import express from "express";// import "express-async-errors";
 import "express-async-errors";
-
 import dotenv from "dotenv";
 
-import router from "./src/Routers/index.js"
-import handleErrors from "./src/Middlewares/handleErrors.js";
-
+import { handleError } from "./src/middlewares/handleErrors.js";
+import router from "./src/routers/index.js"
 
 dotenv.config();
 const app = express();
 
-app.use(json());
+app.use(express.json());
 app.use(router);
-app.use(handleErrors);
+app.use(handleError);
 
 const PORT = +process.env.PORT || 5000;
 app.listen(PORT, () => {
