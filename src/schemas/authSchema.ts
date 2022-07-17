@@ -1,4 +1,4 @@
-import Joi, { Schema, string } from "joi";
+import Joi from "joi";
 import { registerUserType } from "../services/authService.js";
 
 export const signupSchema = Joi.object<registerUserType>({
@@ -12,3 +12,4 @@ export const signinSchema = Joi.object<registerUserType>({
     email: Joi.string().email().required(),
     pass: Joi.string().required()
 })
+

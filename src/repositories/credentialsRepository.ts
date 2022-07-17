@@ -22,3 +22,19 @@ export async function createUrl(url: string) {
     const urlCreated = await prisma.urls.create({ data: { url } })
     return urlCreated
 }
+
+export async function getCredentialByUserId(userId:number) {
+    const allCredentials = await prisma.credentials.findMany({
+        where: { 
+            userId 
+        }, 
+        select:{
+            title:true,
+            userName: true, 
+            pass:true,
+            url: {select:{url:true}}
+        }
+    })
+
+    return allCredentials
+}
