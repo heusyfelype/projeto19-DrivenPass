@@ -1,12 +1,20 @@
 import { Request, Response } from "express";
-import { registerUserService, userType } from "../services/authService.js";
+import { loginUserType, registerUserService, registerUserType, signInService } from "../services/authService.js";
 
 export async function registerUserController(req:Request, res:Response) {
 
-    const infos : userType = req.body
+    const infos : registerUserType = req.body
     await registerUserService(infos)
 
     res.sendStatus(201);
 }
 
-//verificar o JWT do projetão
+export async function signInController(req:Request, res:Response) {
+
+    const infos : loginUserType = req.body
+    const tokenAndUserId = await signInService(infos)
+
+    res.locals.token = tokenAndUserId.token
+    res.send(tokenAndUserId); 
+
+}

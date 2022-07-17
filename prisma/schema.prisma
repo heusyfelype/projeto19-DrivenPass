@@ -21,6 +21,7 @@ model Users {
   safenotes   SafeNotes[]
   cards       Cards[]
   wifiPasses  WifiPasses[]
+  sessions    Sessions[]
 
   @@map("users")
 }
@@ -28,6 +29,7 @@ model Users {
 model Credentials {
   id        Int      @id @default(autoincrement())
   title     String
+  userName  String
   pass      String
   createdAt DateTime @default(now())
 
@@ -43,7 +45,7 @@ model Credentials {
 
 model Urls {
   id        Int      @id @default(autoincrement())
-  title     String
+  url       String
   createdAt DateTime @default(now())
 
 
@@ -71,7 +73,7 @@ model Cards {
   number      String
   name        String
   cvc         String
-  expiredDate DateTime @default(now()) //verificar como formatar isso aqui
+  expiredDate DateTime //verificar como formatar isso aqui
   virtual     Boolean
   createdAt   DateTime @default(now())
 
@@ -107,4 +109,14 @@ model WifiPasses {
 
 
   @@map("wifiPasses")
+}
+
+model Sessions {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      Users    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+
+  @@map("sessions")
 }
