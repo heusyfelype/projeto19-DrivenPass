@@ -4,6 +4,11 @@ import jwt from "jsonwebtoken";
 
 export async function validToken(req: Request, res: Response, next: NextFunction) {
 
+    const userId = req.headers.id;
+    if (!userId) {
+        throw { type: "unauthorized", message: "no userId as id in Headers" }
+    }
+
     const auth = req.headers.authorization
     const token = auth?.replace('Bearer ', "");
     if (!token) {

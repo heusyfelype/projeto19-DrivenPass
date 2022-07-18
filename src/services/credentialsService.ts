@@ -50,3 +50,15 @@ export async function deleteCredentialService(credentialId: number, userId: numb
 
     await deleteCredential(credentialId, userId)
 }
+
+export async function selectCredentialService(credentialId: number, userId: number) {
+    const credentialSelected = await selectCredentialById(credentialId)
+    if (!credentialSelected) {
+        throw { "type": "unprocessable entity", message: "Unable to locate credential" }
+
+    }
+    if (credentialSelected.userId !== userId) {
+        throw { "type": "Conflict", message: "You have not authorization for access this credential!" }
+    }
+    return credentialSelected
+}

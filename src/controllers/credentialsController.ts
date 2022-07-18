@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { getCredentialByUserId } from "../repositories/credentialsRepository.js";
-import { createCredentialService, deleteCredentialService } from "../services/credentialsService.js";
+import { getCredentialByUserId, selectCredentialById } from "../repositories/credentialsRepository.js";
+import { createCredentialService, deleteCredentialService, selectCredentialService } from "../services/credentialsService.js";
 
 
 export async function createCredentialController(req:Request, res:Response) {
@@ -18,6 +18,17 @@ export async function getCredentailController(req:Request, res:Response) {
 
     res.send(credentials)
 }
+
+export async function getUniqueCredentailController(req:Request, res:Response) {
+    const credentialId = +req.params.id
+    const userId = +req.headers.id
+
+    const credential = await selectCredentialService(credentialId, userId)
+
+    res.send(credential)
+}
+
+
 
 export async function deleteCredentialController(req:Request, res:Response) {
     const credentialId = +req.params.id
