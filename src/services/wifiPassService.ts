@@ -6,7 +6,7 @@ import { createWifiPass, deleteWifiPass, selectWifiPassById } from "../repositor
 export type wifiPassTypePrisma = Omit<WifiPasses, "id" | "createdAt">
 
 export async function createWifiPassService(infos: wifiPassTypePrisma) {
-    const cryptr = new Cryptr('myTotallySecretKey');
+    const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
     const encryptedPass = cryptr.encrypt(infos.pass)
     infos.pass = encryptedPass
 

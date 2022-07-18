@@ -1,0 +1,6 @@
+
+DATABASE_URL="url do postgres"
+PORT=4000
+
+JWT_SECRET=senha JWT
+CRYPTR_SECRET=senha CRYPTR
