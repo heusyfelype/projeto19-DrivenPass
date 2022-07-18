@@ -35,6 +35,14 @@ export async function getCredentialByUserId(userId:number) {
             url: {select:{url:true}}
         }
     })
-
     return allCredentials
+}
+
+export async function deleteCredential(credentialId: number, userId:number) {
+    await prisma.credentials.delete({where: {id:credentialId} })
+}
+
+export async function selectCredentialById(credentialId:number) {
+    const credetial =  await prisma.credentials.findFirst({where:{id:credentialId}})
+    return credetial
 }
