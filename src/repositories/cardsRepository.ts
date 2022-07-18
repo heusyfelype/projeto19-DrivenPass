@@ -1,5 +1,5 @@
 import { prisma } from "../config/connectionDB.js"
-import { createCardType } from "../services/createCardService.js"
+import { createCardType } from "../services/cardService.js"
 
 import { CardTypes } from "@prisma/client"
 
@@ -18,5 +18,21 @@ export async function selectCardTypeIdBytype(name: string) {
 export async function registerCard(infos: createCardType) {
     await prisma.cards.create({ data: infos })
 }
+
+export async function getCardsByUserId(userId: number) {
+    const cards = await prisma.cards.findMany({ where: { userId } })
+    return cards
+}
+
+export async function selectCard(id: number, userId: number) {
+    const card = await prisma.cards.findFirst({where:{id, userId}})
+    return card
+}
+
+export async function deleteCard(id: number, ) {
+    const card = await prisma.cards.delete({where:{id}})
+    return card
+}
+
 
 

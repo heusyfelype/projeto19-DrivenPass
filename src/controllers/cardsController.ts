@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { createCardService } from "../services/createCardService.js";
+import { getCardsByUserId } from "../repositories/cardsRepository.js";
+import { createCardService, deleteCardService, getUniqueCardService } from "../services/cardService.js";
 
 
 export async function createCardController(req:Request, res:Response) {
@@ -11,9 +12,27 @@ export async function createCardController(req:Request, res:Response) {
     res.sendStatus(201)
 }
 export async function getCardsController(req:Request, res:Response) {
+    const userId = +req.headers.id
+    const cards = await getCardsByUserId(userId)
+
+    res.send(cards)
 }
 export async function getUniqueCardController(req:Request, res:Response) {
+    const userId = +req.headers.id
+    const cardId = +req.params.id
+
+    const card = await getUniqueCardService(cardId, userId)
+
+    res.send(card)
+
 }
 export async function deleteCardController(req:Request, res:Response) {
+    const userId = +req.headers.id
+    const cardId = +req.params.id
+
+    const card = await deleteCardService(cardId, userId)
+
+    res.sendStatus(200)
+
 }
 

@@ -3,7 +3,7 @@ import Joi, { string } from "joi";
 import { Cards } from "@prisma/client";
 import { type } from "os";
 
-import { cardType } from "../services/createCardService";
+import { cardType } from "../services/cardService.js";
 
 const cardTypes = ["credit", "debit", "both"]
 export const cardSchema = Joi.object<cardType>({
