@@ -70,11 +70,13 @@ model SafeNotes {
 
 model Cards {
   id          Int      @id @default(autoincrement())
+  title       String
   number      String
-  name        String
+  printedName String
   cvc         String
-  expiredDate DateTime //verificar como formatar isso aqui
+  expiredDate String //verificar como formatar isso aqui
   virtual     Boolean
+  pass        String
   createdAt   DateTime @default(now())
 
   typeId Int
@@ -89,7 +91,7 @@ model Cards {
 
 model CardTypes {
   id        Int      @id @default(autoincrement())
-  type      String
+  name      String   @unique
   createdAt DateTime @default(now())
 
   cards Cards[]

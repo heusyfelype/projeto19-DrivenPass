@@ -10,7 +10,8 @@ export async function selectCredentialByTitle(title: string) {
 }
 
 export async function registerCredential(infos: credentialTypePrisma) {
-    const credential = await prisma.credentials.create({ data: infos })
+    console.log("credential.create infos: ", infos)
+    await prisma.credentials.create({ data: infos })
 }
 
 export async function findUrl(url: string) {

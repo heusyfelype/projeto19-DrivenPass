@@ -23,6 +23,7 @@ export async function createCredentialService(infos: credentialType) {
     if (!existUrl) {
         existUrl = await createUrl(infos.url)
     }
+    console.log("existUrl:", existUrl)
 
     const cryptr = new Cryptr('myTotallySecretKey');
     const encryptedPass = cryptr.encrypt(infos.pass)

@@ -5,6 +5,7 @@ import { createCredentialService, deleteCredentialService, selectCredentialServi
 
 export async function createCredentialController(req:Request, res:Response) {
     const credentialInfos = req.body;
+    credentialInfos.userId = +req.headers.id
 
     await createCredentialService(credentialInfos)
 
