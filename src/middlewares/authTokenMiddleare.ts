@@ -1,13 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-// import { getSessionById } from "../repositories/sessionsRepository";
+import { getSessionByUserId } from "../repositories/sessionsRepository.js";
 
 export async function validToken(req: Request, res: Response, next: NextFunction) {
-
-    const userId = req.headers.id;
-    if (!userId) {
-        throw { type: "unauthorized", message: "no userId as id in Headers" }
-    }
 
     const auth = req.headers.authorization
     const token = auth?.replace('Bearer ', "");
@@ -17,12 +12,14 @@ export async function validToken(req: Request, res: Response, next: NextFunction
 
     const JWTKey = process.env.JWT_SECRET
 
-    const reverseToken = jwt.verify(token, JWTKey)
+    if(jwt.verify(token, JWTKey)){
+        res.locals.userData = jwt.decode(token)
+    }
 
-    // const session = await getSessionById(reverseToken.sessionId)
-
-    //decriptedData será um objeto, depois é só acessa o id do usuário e da sessão para verificar 
-    // se existe no brotliDecompress. Em seguida, verificar se a data de expiração já foi ultrapassada.
+    const session = await getSessionByUserId(res.locals.userData.data.sessionId)
+    if (!session) {
+        throw { type: "unauthorized", message: "session id invalid!" }
+    }
 
     next()
 }

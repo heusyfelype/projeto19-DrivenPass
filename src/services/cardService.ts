@@ -14,19 +14,19 @@ export type cardType = {
     pass: string;
     type: string;
     userId: number;
-} 
+}
 
 export async function createCardService(infos: cardType) {
     const existCardAlready = await selectCardByTitle(infos.title, infos.userId)
     if (existCardAlready) {
         throw { type: "conflict", message: "A card with this title already exists!" }
     }
-    const cardTypeId = await selectCardTypeIdBytype(infos.type) 
+    const cardTypeId = await selectCardTypeIdBytype(infos.type)
 
 
-     const cryptr = new Cryptr('myTotallySecretKey');
-     const encryptedPass = cryptr.encrypt(infos.pass);
-     const encryptedcvc = cryptr.encrypt(infos.cvc);
+    const cryptr = new Cryptr('myTotallySecretKey');
+    const encryptedPass = cryptr.encrypt(infos.pass);
+    const encryptedcvc = cryptr.encrypt(infos.cvc);
 
     const infosToCreate: createCardType = {
         "number": infos.number,
@@ -43,11 +43,11 @@ export async function createCardService(infos: cardType) {
 }
 
 
-export async function getUniqueCardService(cardId: number, userId:number) {
+export async function getUniqueCardService(cardId: number, userId: number) {
     const card = await selectCard(cardId, userId)
 
     if (!card) {
-        throw { "type": "unprocessable entity", message: "Unable to locate credential" }
+        throw { "type": "not found", "message": "Unable to locate card" }
 
     }
     // if (card.userId !== userId) {
@@ -60,11 +60,11 @@ export async function getUniqueCardService(cardId: number, userId:number) {
 
 
 
-export async function deleteCardService(cardId: number, userId:number) {
+export async function deleteCardService(cardId: number, userId: number) {
     const card = await selectCard(cardId, userId)
 
     if (!card) {
-        throw { "type": "unprocessable entity", message: "Unable to locate credential" }
+        throw { "type": "not found", "message": "Unable to locate card" }
 
     }
     // if (card.userId !== userId) {

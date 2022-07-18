@@ -22,7 +22,7 @@ export async function registerUserService(infos: registerUserType) {
 export async function signInService(infos:loginUserType) {
     const user = await selectUserByEmail(infos.email)
     if(!user){
-        throw {type: "unprocessable entity", message: "Usuário não cadastrado!"}
+        throw {type: "unauthorized", message: "Usuário não cadastrado!"}
     }
     if(bcrypt.compareSync(infos.pass, user.pass)){
         const sessionId = await createSession(user.id)

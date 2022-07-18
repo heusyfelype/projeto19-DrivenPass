@@ -4,13 +4,12 @@ import { credentialTypePrisma } from "../services/credentialsService.js";
 import { Urls } from "@prisma/client";
 
 
-export async function selectCredentialByTitle(title: string) {
-    const credential = await prisma.credentials.findFirst({ where: { title } })
+export async function selectCredentialByTitle(title: string, userId:number) {
+    const credential = await prisma.credentials.findFirst({ where: { title, userId } })
     return credential
 }
 
 export async function registerCredential(infos: credentialTypePrisma) {
-    console.log("credential.create infos: ", infos)
     await prisma.credentials.create({ data: infos })
 }
 
@@ -30,8 +29,9 @@ export async function getCredentialByUserId(userId:number) {
             userId 
         }, 
         select:{
-            title:true,
+            id: true,
             userName: true, 
+            title:true,
             pass:true,
             url: {select:{url:true}}
         }
@@ -43,7 +43,19 @@ export async function deleteCredential(credentialId: number, userId:number) {
     await prisma.credentials.delete({where: {id:credentialId} })
 }
 
-export async function selectCredentialById(credentialId:number) {
-    const credetial =  await prisma.credentials.findFirst({where:{id:credentialId}})
+export async function selectCredentialById(id:number, userId:number) {
+    const credetial =  await prisma.credentials.findFirst({
+        where:{
+            id, 
+            userId
+        }, 
+        select:{
+            id: true,
+            userName: true, 
+            title:true,
+            pass:true,
+            url: {select:{url:true}}
+        }
+    })
     return credetial
 }

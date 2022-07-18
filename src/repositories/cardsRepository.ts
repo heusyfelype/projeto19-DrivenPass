@@ -20,17 +20,49 @@ export async function registerCard(infos: createCardType) {
 }
 
 export async function getCardsByUserId(userId: number) {
-    const cards = await prisma.cards.findMany({ where: { userId } })
+    const cards = await prisma.cards.findMany({
+        where: {
+            userId
+        },
+        select: {
+
+            id: true,
+            type: { select: { name: true } },
+            number: true,
+            pass: true,
+            title: true,
+            printedName: true,
+            cvc: true,
+            expiredDate: true,
+            virtual: true
+        }
+    })
     return cards
 }
 
 export async function selectCard(id: number, userId: number) {
-    const card = await prisma.cards.findFirst({where:{id, userId}})
+    const card = await prisma.cards.findFirst({
+        where: {
+            id,
+            userId
+        },
+        select: {
+            id: true,
+            type: { select: { name: true } },
+            number: true,
+            pass: true,
+            title: true,
+            printedName: true,
+            cvc: true,
+            expiredDate: true,
+            virtual: true
+        }
+    })
     return card
 }
 
-export async function deleteCard(id: number, ) {
-    const card = await prisma.cards.delete({where:{id}})
+export async function deleteCard(id: number,) {
+    const card = await prisma.cards.delete({ where: { id } })
     return card
 }
 

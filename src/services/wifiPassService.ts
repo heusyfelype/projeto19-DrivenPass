@@ -5,36 +5,36 @@ import { createWifiPass, deleteWifiPass, selectWifiPassById } from "../repositor
 
 export type wifiPassTypePrisma = Omit<WifiPasses, "id" | "createdAt">
 
-export async function createWifiPassService(infos:wifiPassTypePrisma) {
+export async function createWifiPassService(infos: wifiPassTypePrisma) {
     const cryptr = new Cryptr('myTotallySecretKey');
     const encryptedPass = cryptr.encrypt(infos.pass)
     infos.pass = encryptedPass
- 
+
     await createWifiPass(infos)
 }
 
 
-export async function getWifiPassService(wifiPassId:number, userId:number) {
-    const wifiPass = await selectWifiPassById(wifiPassId)
+export async function getWifiPassService(wifiPassId: number, userId: number) {
+    const wifiPass = await selectWifiPassById(wifiPassId, userId)
     if (!wifiPass) {
-        throw { "type": "unprocessable entity", message: "Unable to locate wifiPass" }
+        throw { "type": "not found", message: "Unable to locate wifiPass" }
 
     }
-    if (wifiPass.userId !== userId) {
-        throw { "type": "Conflict", message: "You have not authorization for access this wifiPass!" }
-    }
+    // if (wifiPass.userId !== userId) {
+    //     throw { "type": "Conflict", message: "You have not authorization for access this wifiPass!" }
+    // }
     return wifiPass
 }
 
-export async function deleteWifiPassService(wifiPassId:number, userId:number) {
-    const wifiPass = await selectWifiPassById(wifiPassId)
+export async function deleteWifiPassService(wifiPassId: number, userId: number) {
+    const wifiPass = await selectWifiPassById(wifiPassId, userId)
     if (!wifiPass) {
-        throw { "type": "unprocessable entity", message: "Unable to locate wifiPass" }
+        throw { "type": "not found", message: "Unable to locate wifiPass" }
 
     }
-    if (wifiPass.userId !== userId) {
-        throw { "type": "Conflict", message: "You have not authorization for access this wifiPass!" }
-    }
+    // if (wifiPass.userId !== userId) {
+    //     throw { "type": "Conflict", message: "You have not authorization for access this wifiPass!" }
+    // }
     await deleteWifiPass(wifiPassId)
 }
 

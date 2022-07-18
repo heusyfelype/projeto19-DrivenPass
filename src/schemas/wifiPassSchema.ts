@@ -1,11 +1,8 @@
-import Joi from "joi"
+import Joi from "joi";
+import { wifiPassTypePrisma } from "../services/wifiPassService";
 
-import { WifiPasses } from "@prisma/client"
-import { type } from "os"
 
-export type wifiPassType = Pick<WifiPasses, "name" | "pass" | "title" >
-
-export const wifiPassSchema = Joi.object<wifiPassType>({
+export const wifiPassSchema = Joi.object<wifiPassTypePrisma>({
     name: Joi.string().required(),
     pass: Joi.string().required(),
     title: Joi.string().required(),
