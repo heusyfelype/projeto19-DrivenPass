@@ -4,7 +4,7 @@ export function handleError(error, req:Request, res:Response, next:NextFunction)
     console.log("caiu no handle error. Erro: ", error)
 
     if(error.type){
-        return typeErrorHandle(error.tye, error.message, error, res)
+        return typeErrorHandle(error.type, error.message, error, res)
     }
 
     return res.sendStatus(500);
